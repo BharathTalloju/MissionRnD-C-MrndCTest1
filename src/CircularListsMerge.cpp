@@ -34,5 +34,69 @@ struct node{
 };
 int merge_circularlists(struct node **head1, struct node **head2){
 	//Returns Length of merged Sorted circular SLL and also points *head1 to final SLL .
-	return -1;
+	struct node *result_head = NULL;
+	struct node *walker1 = *head1;
+	struct node *walker2 = *head2;
+	struct node *r_walker = result_head;
+	int len = 0;
+
+	if (!walker1 && !walker2){
+		return -1;
+	}
+	if (walker1 == NULL){
+		while (walker2 != *head2){
+			walker2 = walker2->next;
+			len++;
+		}
+		*head1 = *head2;
+		return len;
+	}
+	else if (walker2 == NULL){
+		while (walker1 != *head1){
+			walker1 = walker1->next;
+			len++;
+		}
+		//*head1 = *head2;
+		return len;
+	}
+
+	if ((*head1)->data < (*head2)->data){
+		result_head = *head1;
+		r_walker = result_head;
+		walker1 = walker1->next;
+	}
+	else{
+		result_head = *head2;
+		r_walker = result_head;
+		walker2 = walker2->next;
+	}
+	while (walker1 != *head1 && walker2 != *head2){
+		if (walker1-> data <= walker2-> data){
+			r_walker->next = walker1;
+			r_walker = r_walker->next;
+			walker1 = walker1->next;
+		}
+		else{
+			r_walker->next = walker2;
+			r_walker = r_walker->next;
+			walker2 = walker2->next;
+		}
+		len++;
+	}
+	while (walker2 != *head2){
+		r_walker->next = walker2;
+		r_walker = r_walker->next;
+		walker2 = walker2->next;
+		len++;
+	}
+	while (walker1 != *head1){
+		r_walker->next = walker1;
+		r_walker = r_walker->next;
+		walker1 = walker1->next;
+		len++;
+	}
+	r_walker->next = result_head;
+	*head1 = result_head;
+	printf("\nReturning %d", len);
+	return len;
 }

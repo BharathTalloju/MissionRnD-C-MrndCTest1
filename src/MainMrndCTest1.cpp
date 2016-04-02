@@ -69,7 +69,21 @@ void printSll(struct node *head,int len){
 
 void make_it_circular(struct node *head){
 	//Makes a Normal SLL circular ,Make Last->next=head;
+	struct node *temp = head;
+	while (head->next != NULL){
+		head = head->next;
+	}
+	head->next = temp;
 
+}
+
+int compare_arrays(int *res, int *ans){
+	for (int i = 0; i < 6; i++){
+		if (res[i] != ans[i]){
+			return 0;
+		}
+	}
+	return 1;
 }
 
 //End of Helper Functions
@@ -77,6 +91,25 @@ void make_it_circular(struct node *head){
 int main(){
 
 	//Test Sequences
+
+	int ans[10] = { 1, 2, 3, 4, 5, 6, 1 };
+	int nums[5] = { 1, 3, 5 };
+	int nums2[5] = { 2, 4, 6 };
+
+	int l1 = 3, l2 = 3, i;
+	struct node *head1 = NULL;
+	struct node *head2 = NULL;
+	for (i = l1 - 1; i >= 0; i--){
+		addNode(&head1, nums[i]);
+	}
+	for (i = l2 - 1; i >= 0; i--){
+		addNode(&head2, nums2[i]);
+	}
+	make_it_circular(head1);
+	make_it_circular(head2);
+
+	int len = merge_circularlists(&head1, &head2);
+	int check = is_correct(head1, ans, len + 1);
 
 	//Test Circular Linked Lists
 
